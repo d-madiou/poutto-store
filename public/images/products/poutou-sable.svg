@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#e9dcc3"/>
+  <circle cx="200" cy="170" r="90" fill="#dcccaa"/>
+  <ellipse cx="200" cy="230" rx="130" ry="40" fill="#c9b691"/>
+  <text x="200" y="370" font-family="Georgia, serif" font-size="20" fill="#3a3226" text-anchor="middle">Poutou — Sable</text>
+</svg>

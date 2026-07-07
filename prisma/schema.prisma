@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum PaymentMethod {
+  CASH
+  ORANGE_MONEY
+}
+
+enum PaymentStatus {
+  PENDING
+  CONFIRMED
+}
+
+enum DeliveryStatus {
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  name        String
+  slug        String      @unique
+  description String
+  price       Decimal     @db.Decimal(12, 2)
+  stock       Int         @default(0)
+  images      String[] // URLs Supabase Storage (ou chemins /images/* pour le seed)
+  size        String?
+  material    String?
+  color       String?
+  region      String? // origine/région du poutou (Fouta-Djallon)
+  status      String      @default("ACTIVE") // ACTIVE | ARCHIVED
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([categoryId])
+  @@index([status])
+}
+
+model Order {
+  id              String         @id @default(uuid())
+  userId          String? // nullable — commande invité autorisée
+  user            User?          @relation(fields: [userId], references: [id])
+  guestName       String?
+  guestPhone      String?
+  guestEmail      String?
+  deliveryAddress String
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus  @default(PENDING)
+  deliveryStatus  DeliveryStatus @default(PROCESSING)
+  total           Decimal        @db.Decimal(12, 2)
+  items           OrderItem[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([paymentStatus])
+  @@index([deliveryStatus])
+}
+
+model OrderItem {
+  id              String  @id @default(uuid())
+  orderId         String
+  order           Order   @relation(fields: [orderId], references: [id])
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  quantity        Int
+  priceAtPurchase Decimal @db.Decimal(12, 2)
+
+  @@index([orderId])
+  @@index([productId])
+}
