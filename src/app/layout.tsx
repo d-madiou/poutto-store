@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const fontSans = Inter({
+const fontSans = Poppins({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const fontDisplay = Fraunces({
+const fontDisplay = Poppins({
   subsets: ["latin"],
+  weight: ["600", "700"],
   variable: "--font-display",
   display: "swap",
 });

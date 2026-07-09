@@ -13,9 +13,8 @@
     --popover: 40 33% 99%;
     --popover-foreground: 20 20% 14%;
 
-    /* Indigo — clin d'œil à la teinture indigo du Fouta-Djallon */
-    --primary: 231 38% 24%;
-    --primary-foreground: 40 33% 98%;
+    --primary: 226 92% 53%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 35 28% 92%;
     --secondary-foreground: 20 20% 14%;
@@ -36,7 +35,7 @@
 
     --border: 35 20% 87%;
     --input: 35 20% 87%;
-    --ring: 231 38% 24%;
+    --ring: 226 92% 53%;
 
     --radius: 0.5rem;
   }
@@ -51,7 +50,7 @@
     --popover: 20 18% 12%;
     --popover-foreground: 40 33% 96%;
 
-    --primary: 231 45% 68%;
+    --primary: 226 90% 65%;
     --primary-foreground: 20 20% 9%;
 
     --secondary: 20 12% 18%;
@@ -71,7 +70,7 @@
 
     --border: 20 12% 20%;
     --input: 20 12% 20%;
-    --ring: 231 45% 68%;
+    --ring: 226 90% 65%;
   }
 }
 

@@ -22,11 +22,13 @@ export default async function ProductDetailPage({
 
   const storeProduct = serializeProduct(product);
   const attributes = [
-    { label: "Taille", value: storeProduct.size },
-    { label: "Matière", value: storeProduct.material },
-    { label: "Couleur", value: storeProduct.color },
-    { label: "Région", value: storeProduct.region },
-  ].filter((a) => a.value);
+      {
+        label: "Tailles",
+        value: storeProduct.sizes.length > 0 ? storeProduct.sizes.join(", ") : null,
+      },
+      { label: "Couleur", value: storeProduct.color },
+      { label: "Région", value: storeProduct.region },
+    ].filter((a) => a.value);
 
   return (
     <div className="container py-6 pb-16">

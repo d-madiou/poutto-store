@@ -11,9 +11,9 @@ const IMG = {
 };
 
 const categories = [
-  { name: "Poutou Classique", slug: "poutou-classique" },
-  { name: "Poutou de Cérémonie", slug: "poutou-de-ceremonie" },
-  { name: "Poutou Brodé Main", slug: "poutou-brode-main" },
+  { name: "Grande taille", slug: "grande-taille" },
+  { name: "Petite taille", slug: "petite-taille" },
+  { name: "Multiples couleurs", slug: "multiples-couleurs" },
 ];
 
 const products = [
@@ -24,11 +24,10 @@ const products = [
       "Tissé et teint à la main par les maîtres teinturiers de Labé, ce poutou plonge trois fois dans la cuve d'indigo pour obtenir ce bleu profond caractéristique du Fouta-Djallon. La calotte souple épouse la tête et le liseré est cousu au fil de coton ciré. Une pièce de cérémonie qui se porte aussi au quotidien.",
     price: 350000,
     stock: 12,
-    size: "M (56–58 cm)",
-    material: "Coton tissé main, teinture indigo naturelle",
+    sizes: ["56", "57", "58"],
     color: "Indigo profond",
     region: "Labé",
-    category: "poutou-de-ceremonie",
+    category: "grande-taille",
     images: IMG.indigo,
   },
   {
@@ -38,11 +37,10 @@ const products = [
       "Le modèle de tous les jours : coton épais double couche, motif damier blanc cassé et noir tissé dans la masse. Léger, respirant, il garde sa forme même plié dans un sac. C'est le poutou que portent les anciens de Pita au marché du samedi.",
     price: 180000,
     stock: 25,
-    size: "L (58–60 cm)",
-    material: "Coton épais double couche",
+    sizes: ["58", "59", "60"],
     color: "Blanc cassé & noir",
     region: "Pita",
-    category: "poutou-classique",
+    category: "multiples-couleurs",
     images: IMG.sable,
   },
   {
@@ -52,11 +50,10 @@ const products = [
       "Huit jours de broderie au fil de soie pour dessiner l'étoile à huit branches, symbole de guidance chez les Peuls du Fouta. Fond bordeaux, motifs dorés, doublure en coton doux. Chaque pièce est signée à l'intérieur par la brodeuse de Timbi Madina qui l'a réalisée.",
     price: 420000,
     stock: 6,
-    size: "M (56–58 cm)",
-    material: "Coton, broderie fil de soie",
+    sizes: ["56", "57", "58"],
     color: "Bordeaux, motifs dorés",
     region: "Timbi Madina",
-    category: "poutou-brode-main",
+    category: "multiples-couleurs",
     images: IMG.terracotta,
   },
   {
@@ -66,11 +63,10 @@ const products = [
       "Inspiré des collines brumeuses de Dalaba, ce poutou en laine fine locale tient chaud pendant l'harmattan. Le vert forêt est obtenu par teinture végétale à base de feuilles d'indigotier mélangées au cola. Finition sobre, sans broderie.",
     price: 200000,
     stock: 15,
-    size: "S (54–56 cm)",
-    material: "Laine fine locale",
+    sizes: ["54", "55", "56"],
     color: "Vert forêt",
     region: "Dalaba",
-    category: "poutou-classique",
+    category: "petite-taille",
     images: IMG.foret,
   },
   {
@@ -80,11 +76,10 @@ const products = [
       "« Teddungal » signifie honneur en pulaar. Réservé aux grandes occasions — baptêmes, mariages, fêtes de Tabaski — ce poutou blanc éclatant est entièrement recouvert d'une broderie dense en relief. Livré dans sa boîte en carton rigide avec un carré de tissu de protection.",
     price: 480000,
     stock: 4,
-    size: "L (58–60 cm)",
-    material: "Coton premium, broderie dense en relief",
+    sizes: ["58", "59", "60"],
     color: "Blanc éclatant",
     region: "Labé",
-    category: "poutou-de-ceremonie",
+    category: "grande-taille",
     images: IMG.sable,
   },
   {
@@ -94,11 +89,10 @@ const products = [
       "Les tons ocre et brun de ce modèle rappellent la latérite des pistes de Mamou. Tissage serré en coton filé main, bande de tête renforcée. Un classique robuste, pensé pour durer des années.",
     price: 165000,
     stock: 20,
-    size: "M (56–58 cm)",
-    material: "Coton filé et tissé main",
+    sizes: ["56", "57", "58"],
     color: "Ocre & brun",
     region: "Mamou",
-    category: "poutou-classique",
+    category: "multiples-couleurs",
     images: IMG.terracotta,
   },
   {
@@ -108,11 +102,10 @@ const products = [
       "Sur fond noir profond, un entrelacs doré court tout autour de la calotte — le « lasso », motif de protection transmis de mère en fille. Broderie au fil métallisé résistant au lavage à la main. Se marie aussi bien avec un boubou qu'avec une tenue de ville.",
     price: 390000,
     stock: 8,
-    size: "M (56–58 cm)",
-    material: "Coton, broderie fil métallisé",
+    sizes: ["56", "57", "58"],
     color: "Noir & or",
     region: "Pita",
-    category: "poutou-brode-main",
+    category: "multiples-couleurs",
     images: IMG.indigo,
   },
   {
@@ -122,11 +115,10 @@ const products = [
       "Le modèle historique, sans fioritures : celui que portent les bergers peuls sur les hauts plateaux de Koundara. Coton écru robuste, coutures apparentes, prix accessible. Parfait comme premier poutou ou comme cadeau.",
     price: 120000,
     stock: 30,
-    size: "L (58–60 cm)",
-    material: "Coton écru robuste",
+    sizes: ["58", "59", "60"],
     color: "Écru",
     region: "Koundara",
-    category: "poutou-classique",
+    category: "grande-taille",
     images: IMG.sable,
   },
   {
@@ -136,11 +128,10 @@ const products = [
       "Un modèle plus doux, taillé petit, orné de fleurs d'indigo brodées sur fond ivoire. « Néné » est le nom affectueux donné aux mères au Fouta. Coton peigné très souple, idéal pour un port prolongé.",
     price: 360000,
     stock: 10,
-    size: "S (54–56 cm)",
-    material: "Coton peigné doux",
+    sizes: ["54", "55", "56"],
     color: "Ivoire, fleurs indigo",
     region: "Dalaba",
-    category: "poutou-brode-main",
+    category: "multiples-couleurs",
     images: IMG.foret,
   },
   {
@@ -150,11 +141,10 @@ const products = [
       "Bleu nuit rehaussé de fils argentés, ce poutou de fête capte la lumière à chaque mouvement. Tissé à Timbi Madina pour les célébrations de fin de Ramadan, il est doublé de soie pour un confort absolu. Quantités très limitées à chaque saison.",
     price: 450000,
     stock: 5,
-    size: "M (56–58 cm)",
-    material: "Coton & soie, fils argentés",
+    sizes: ["56", "57", "58"],
     color: "Bleu nuit & argent",
     region: "Timbi Madina",
-    category: "poutou-de-ceremonie",
+    category: "multiples-couleurs",
     images: IMG.indigo,
   },
 ];
@@ -176,7 +166,7 @@ async function main() {
     const { category, ...data } = p;
     await prisma.product.upsert({
       where: { slug: p.slug },
-      update: {},
+      update: { ...data, categoryId: catBySlug.get(category)! },
       create: { ...data, categoryId: catBySlug.get(category)! },
     });
   }
