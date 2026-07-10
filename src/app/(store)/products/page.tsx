@@ -3,7 +3,6 @@ import { serializeProduct } from "@/lib/serializers";
 import { ProductCard } from "@/components/store/product-card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Grid2x2, SlidersHorizontal, Layers } from "lucide-react";
 
 type SortOption = "newest" | "price-asc" | "price-desc";
 
@@ -48,51 +47,43 @@ export default async function ProductsPage({
   };
 
   return (
-    <div className="bg-neutral-50/50 min-h-screen pb-24">
-      <div className="container max-w-7xl mx-auto px-4 py-6 md:px-6 md:py-8">
-        
-        {/* Modern Marketplace Page Title & Counter Module */}
-        <div className="flex flex-col gap-2 border-b border-neutral-200/80 pb-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600">
-              <Grid2x2 className="h-4 w-4 stroke-[2.5]" />
-            </div>
-            <h1 className="text-sm font-black uppercase tracking-wider text-neutral-900">
-              Notre collection
+    <div className="bg-white min-h-screen pb-24 font-poppins">
+      <div className="container max-w-7xl mx-auto px-4 py-5 md:px-6 md:py-6">
+        {/* Titre + compteur, propre et direct */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-baseline gap-1">
+            <h1 className="text-lg font-bold text-gray-900 tracking-tight">
+              Collection
             </h1>
+            <span className="text-xs font-medium text-gray-400 ml-1">
+              {storeProducts.length} article{storeProducts.length > 1 ? "s" : ""}
+            </span>
           </div>
-          <span className="inline-flex items-center rounded-full bg-neutral-100 px-3 py-1 text-[11px] font-bold text-neutral-600">
-            {storeProducts.length} modèle{storeProducts.length > 1 ? "s" : ""} disponible{storeProducts.length > 1 ? "s" : ""}
-          </span>
         </div>
 
-        {/* Categories Pills Filter Strip — Smooth marketplace capsule scrolling layout */}
-        <div className="mt-5 space-y-2">
-          <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-neutral-400">
-            <Layers className="h-3.5 w-3.5 text-neutral-400" />
-            <span>Catégories</span>
-          </div>
+        {/* Filtres catégories — style mobile-first, scroll horizontal */}
+        <div className="mb-4">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             <Link
               href="/products"
               className={cn(
-                "shrink-0 h-9 flex items-center justify-center rounded-xl px-4 text-xs font-bold transition-all border shadow-sm",
+                "shrink-0 h-10 flex items-center justify-center rounded-full px-4 text-xs font-semibold transition-colors border",
                 !activeCategory
-                  ? "bg-neutral-900 border-neutral-900 text-white"
-                  : "bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900"
+                  ? "bg-[#E07B39] border-[#E07B39] text-white"
+                  : "bg-white border-gray-200 text-gray-700 hover:border-gray-300 hover:text-gray-900"
               )}
             >
-              Tout voir
+              Tous
             </Link>
             {categories.map((category) => (
               <Link
                 key={category.id}
                 href={`/products?category=${category.slug}`}
                 className={cn(
-                  "shrink-0 h-9 flex items-center justify-center rounded-xl px-4 text-xs font-bold transition-all border shadow-sm",
+                  "shrink-0 h-10 flex items-center justify-center rounded-full px-4 text-xs font-semibold transition-colors border",
                   activeCategory === category.slug
-                    ? "bg-neutral-900 border-neutral-900 text-white"
-                    : "bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900"
+                    ? "bg-[#E07B39] border-[#E07B39] text-white"
+                    : "bg-white border-gray-200 text-gray-700 hover:border-gray-300 hover:text-gray-900"
                 )}
               >
                 {category.name}
@@ -101,14 +92,12 @@ export default async function ProductsPage({
           </div>
         </div>
 
-        {/* Sorting Navigation Bar — Crisp dropdown alternative layout optimized for high conversion */}
-        <div className="mt-4 flex flex-col gap-3 bg-white border border-neutral-200/60 p-3 rounded-2xl shadow-sm sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-neutral-400">
-            <SlidersHorizontal className="h-3.5 w-3.5" />
-            <span>Trier par :</span>
-          </div>
-          
-          <div className="flex flex-wrap gap-1.5 w-full sm:w-auto">
+        {/* Tri — compact et lisible */}
+        <div className="flex items-center gap-3 mb-6 flex-wrap">
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            Trier
+          </span>
+          <div className="flex gap-1.5">
             {(Object.keys(sortLabels) as SortOption[]).map((option) => {
               const qs = new URLSearchParams();
               if (activeCategory) qs.set("category", activeCategory);
@@ -119,10 +108,10 @@ export default async function ProductsPage({
                   key={option}
                   href={`/products?${qs.toString()}`}
                   className={cn(
-                    "flex-1 sm:flex-initial text-center h-8 flex items-center justify-center rounded-lg px-3 text-xs font-bold transition-all border",
+                    "h-9 flex items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors border",
                     isActive
-                      ? "bg-amber-500 border-amber-500 text-neutral-950 shadow-sm shadow-amber-500/10"
-                      : "bg-neutral-50 border-transparent text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800"
+                      ? "bg-[#E07B39] border-[#E07B39] text-white"
+                      : "bg-gray-50 border-gray-100 text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                   )}
                 >
                   {sortLabels[option]}
@@ -132,15 +121,15 @@ export default async function ProductsPage({
           </div>
         </div>
 
-        {/* Pure Modular Commercial Grid Container */}
+        {/* Grille produits */}
         {storeProducts.length === 0 ? (
-          <div className="mt-8 border border-neutral-200 rounded-2xl bg-white p-16 text-center shadow-sm">
-            <p className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
-              Aucun produit dans cette catégorie pour le moment.
+          <div className="mt-8 border border-gray-200 rounded-2xl bg-white p-12 text-center">
+            <p className="text-sm font-medium text-gray-500">
+              Aucun produit pour le moment.
             </p>
           </div>
         ) : (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {storeProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

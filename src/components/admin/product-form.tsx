@@ -4,10 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createProduct, updateProduct, type ProductInput } from "@/actions/product";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/admin/image-uploader";
 import { TagInput } from "@/components/admin/tag-input";
 
@@ -86,41 +82,57 @@ export function ProductForm({
     router.refresh();
   }
 
+  const inputClass =
+    "h-11 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E07B39]/20 focus:border-[#E07B39] transition-colors";
+  const labelClass =
+    "block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1.5";
+  const errorClass =
+    "rounded-xl bg-red-50 border border-red-100 p-3 text-sm font-medium text-red-600";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="space-y-1.5">
-        <Label htmlFor="name">Nom du produit</Label>
-        <Input
+    <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto font-poppins">
+      <div>
+        <label htmlFor="name" className={labelClass}>
+          Nom du produit
+        </label>
+        <input
           id="name"
+          type="text"
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className={inputClass}
+          placeholder="Bonnet Poutou traditionnel"
         />
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="slug">
-          Identifiant URL (slug){" "}
-          <span className="font-normal text-muted-foreground">
-            — laisser vide pour générer automatiquement
+      <div>
+        <label htmlFor="slug" className={labelClass}>
+          Slug{" "}
+          <span className="font-normal text-gray-400">
+            (laissez vide pour auto-générer)
           </span>
-        </Label>
-        <Input
+        </label>
+        <input
           id="slug"
+          type="text"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
-          placeholder="ex-poutou-de-labe-indigo"
+          className={inputClass}
+          placeholder="bonnet-poutou-labe"
         />
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="category">Catégorie</Label>
+      <div>
+        <label htmlFor="category" className={labelClass}>
+          Catégorie
+        </label>
         <select
           id="category"
           required
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="h-10 w-full rounded-md border border-input bg-card px-3 text-sm"
+          className={inputClass}
         >
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
@@ -130,21 +142,27 @@ export function ProductForm({
         </select>
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="description">Description</Label>
-        <Textarea
+      <div>
+        <label htmlFor="description" className={labelClass}>
+          Description
+        </label>
+        <textarea
           id="description"
           required
           rows={4}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className={`${inputClass} h-auto py-3 resize-none`}
+          placeholder="Tissé main au Fouta-Djallon..."
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-1.5">
-          <Label htmlFor="price">Prix (GNF)</Label>
-          <Input
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="price" className={labelClass}>
+            Prix (GNF)
+          </label>
+          <input
             id="price"
             type="number"
             min="0"
@@ -152,59 +170,75 @@ export function ProductForm({
             required
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            className={inputClass}
           />
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="stock">Stock</Label>
-          <Input
+        <div>
+          <label htmlFor="stock" className={labelClass}>
+            Stock
+          </label>
+          <input
             id="stock"
             type="number"
             min="0"
             required
             value={stock}
             onChange={(e) => setStock(e.target.value)}
+            className={inputClass}
           />
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <Label>Tailles disponibles</Label>
+      <div>
+        <label className={labelClass}>Tailles disponibles</label>
         <TagInput values={sizes} onChange={setSizes} placeholder="ex. 56" />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-1.5">
-          <Label htmlFor="color">Couleur</Label>
-          <Input id="color" value={color} onChange={(e) => setColor(e.target.value)} />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="color" className={labelClass}>
+            Couleur
+          </label>
+          <input
+            id="color"
+            type="text"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className={inputClass}
+          />
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="region">Région</Label>
-          <Input
+        <div>
+          <label htmlFor="region" className={labelClass}>
+            Région
+          </label>
+          <input
             id="region"
+            type="text"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
+            className={inputClass}
           />
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <Label>Images</Label>
+      <div>
+        <label className={labelClass}>Images</label>
         <ImageUploader images={images} onChange={setImages} />
       </div>
 
-      {error && (
-        <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {error}
-        </p>
-      )}
+      {error && <div className={errorClass}>{error}</div>}
 
-      <Button type="submit" size="lg" className="h-12 w-full" disabled={submitting}>
+      <button
+        type="submit"
+        disabled={submitting}
+        className="h-12 w-full rounded-xl bg-[#E07B39] text-white font-semibold text-sm transition-colors hover:bg-orange-600 disabled:opacity-60"
+      >
         {submitting
           ? "Enregistrement…"
           : isEditing
           ? "Enregistrer les modifications"
           : "Créer le produit"}
-      </Button>
+      </button>
     </form>
   );
 }

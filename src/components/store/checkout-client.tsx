@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/format";
 import { CheckoutForm } from "@/components/store/checkout-form";
+import { ShoppingBag } from "lucide-react";
 
 export function CheckoutClient({ isLoggedIn }: { isLoggedIn: boolean }) {
   const { items, totalPrice } = useCart();
@@ -18,80 +19,88 @@ export function CheckoutClient({ isLoggedIn }: { isLoggedIn: boolean }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:items-start lg:gap-10">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:items-start lg:gap-8 font-poppins">
       
-      {/* Checkout Form Box (First on mobile, left on desktop) */}
+      {/* Formulaire de commande */}
       <div className="order-1 md:col-span-7 lg:col-span-8">
-        <div className="border border-border bg-card p-4 sm:p-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
           <CheckoutForm isLoggedIn={isLoggedIn} />
         </div>
       </div>
 
-      {/* Order Summary Sidebar (Second on mobile, sticky/contained right on desktop) */}
+      {/* Résumé de la commande (sticky sur desktop) */}
       <div className="order-2 md:sticky md:top-24 md:col-span-5 lg:col-span-4">
-        <div className="border border-border bg-secondary/10 p-4">
-          <h2 className="mb-4 font-sans text-xs font-black uppercase tracking-widest text-foreground">
-            Votre Commande
-          </h2>
+        <div className="rounded-2xl border border-gray-200 bg-white p-5">
           
-          {/* Strict Item Linefeed */}
-          <ul className="divide-y divide-border/60 border-b border-border/60">
+          {/* En-tête */}
+          <div className="mb-4 flex items-center gap-2 border-b border-gray-100 pb-3">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-100 text-gray-600">
+              <ShoppingBag className="h-3.5 w-3.5 stroke-[2.5]" />
+            </div>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-800">
+              Votre commande
+            </h2>
+          </div>
+          
+          {/* Liste des articles */}
+          <ul className="divide-y divide-gray-100 max-h-[280px] overflow-y-auto pr-1">
             {items.map((item) => (
-              <li key={item.productId} className="flex items-center gap-3 py-3 first:pt-0">
+              <li key={item.productId} className="flex items-center gap-3.5 py-3 first:pt-0">
                 
-                {/* Fixed product thumbnail grid container to pull out zoom issues */}
-                <div className="relative h-12 w-12 shrink-0 border border-border bg-white p-1">
+                {/* Miniature */}
+                <div className="relative h-14 w-14 shrink-0 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
                   {item.image ? (
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      sizes="48px"
-                      className="object-contain"
+                      sizes="56px"
+                      className="object-contain p-1"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-secondary text-[8px] font-bold text-muted-foreground uppercase">
-                      Vide
+                    <div className="text-[9px] font-semibold text-gray-400 uppercase">
+                      –
                     </div>
                   )}
                 </div>
 
-                {/* Meta Description layout block */}
+                {/* Infos */}
                 <div className="flex-1 min-w-0">
-                  <p className="truncate text-xs font-bold text-foreground">
+                  <p className="truncate text-xs font-semibold text-gray-800">
                     {item.name}
                   </p>
-                  <p className="mt-0.5 font-sans text-[11px] text-muted-foreground font-medium">
-                    Quantité : {item.quantity}
+                  <p className="mt-0.5 text-[11px] font-medium text-gray-500">
+                    Qté : {item.quantity}
                   </p>
                 </div>
 
-                {/* Line Item Pricing Display */}
-                <p className="text-xs font-black text-foreground">
+                {/* Prix */}
+                <p className="text-xs font-bold text-gray-900 shrink-0">
                   {formatPrice(item.price * item.quantity)}
                 </p>
               </li>
             ))}
           </ul>
 
-          {/* Pricing Summary Block Box */}
-          <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+          {/* Totaux */}
+          <div className="mt-4 border-t border-gray-100 pt-4 space-y-2.5">
+            <div className="flex items-center justify-between text-xs font-medium text-gray-500">
               <span>Sous-total</span>
-              <span>{formatPrice(totalPrice)}</span>
+              <span className="font-semibold text-gray-800">{formatPrice(totalPrice)}</span>
             </div>
-            <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+            
+            <div className="flex items-center justify-between text-xs font-medium text-gray-500">
               <span>Livraison</span>
-              <span className="font-bold text-emerald-600 uppercase text-[10px] tracking-wider bg-emerald-50 px-1.5 py-0.5 rounded-sm">
-                Calculé à l'étape suivante
+              <span className="text-gray-400 text-[11px]">
+                Calculée à l&apos;étape suivante
               </span>
             </div>
             
-            <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
-              <p className="text-xs font-black uppercase tracking-wider text-foreground">
-                Total à régler
+            <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-gray-800">
+                Total
               </p>
-              <p className="text-base font-black tracking-tight text-primary">
+              <p className="text-lg font-bold text-gray-900">
                 {formatPrice(totalPrice)}
               </p>
             </div>

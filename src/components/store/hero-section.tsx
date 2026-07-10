@@ -1,126 +1,124 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Star, ShieldCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function HeroSection() {
   const slides = [
     {
       image: "/images/hero-images/hero1.png",
-      tag: "🔥 TOP VENTE CE MOIS",
+      tag: "TOP VENTE",
       title: "L'excellence du bonnet fulani",
-      desc: "Authentique Poutou traditionnel tissé main au Fouta-Djallon. Qualité premium certifiée.",
+      desc: "Tissé main au Fouta-Djallon. Authenticité certifiée.",
       price: "150 000 GNF",
       originalPrice: "190 000 GNF",
-      sales: "1,2k+ vendus",
     },
     {
       image: "/images/hero-images/hero2.png",
-      tag: "⚡ ÉDITION LIMITÉE",
+      tag: "ÉDITION LIMITÉE",
       title: "Tissé main au Fouta-Djallon",
-      desc: "Édition spéciale d'exception. Broderies fines faites à la main par nos maîtres artisans.",
+      desc: "Broderies fines faites par nos maîtres artisans.",
       price: "180 000 GNF",
       originalPrice: "220 000 GNF",
-      sales: "450+ vendus",
     },
   ];
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
   return (
-    <section className="w-full bg-neutral-950 p-4 sm:p-6 lg:p-8 overflow-hidden">
-      <div className="mx-auto max-w-7xl">
-        
-        {/* 
-          MOBILE-FIRST CAROUSEL WRAPPER:
-          On mobile (< sm), it changes into a single-line, horizontally scrollable layout (`flex overflow-x-auto snap-x snap-mandatory scrollbar-none`).
-          On desktop (≥ lg), it reverts cleanly to your explicit `grid grid-cols-12` structural design layouts.
-        */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-12 lg:gap-4 lg:overflow-visible lg:pb-0">
-          
-          {/* Main Left Feature Banner */}
-          <div className="relative shrink-0 w-[88vw] sm:w-auto snap-center overflow-hidden rounded-2xl px-6 py-12 text-white sm:px-12 sm:py-16 lg:col-span-8 flex flex-col justify-between min-h-[420px] sm:min-h-[460px] shadow-xl">
-            {/* Underlying Web Background Image Asset */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center pointer-events-none transform scale-105"
-              style={{ backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxakOPZ3TbVjamSKjMSAHpRlI_zi_XJmUqjO4KIF31hrBBvkkqL8rBc1O8&s=10')" }}
+    <section className="relative w-full bg-white font-poppins overflow-hidden">
+      <div className="relative max-w-5xl mx-auto">
+        {/* Slider container */}
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {slides.map((slide, idx) => (
+            <div key={idx} className="w-full flex-shrink-0 px-4 pt-6 pb-2">
+              {/* Image — grande, sans cadre, centrée */}
+              <div className="relative w-full aspect-[5/6] mx-auto max-w-xs sm:max-w-sm">
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className="object-contain"
+                  priority={idx === 0}
+                  sizes="(max-width: 640px) 90vw, 400px"
+                />
+              </div>
+
+              {/* Texte compact en dessous */}
+              <div className="mt-3 text-center space-y-2">
+                <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-orange-600 bg-orange-50 px-2.5 py-0.5 rounded-full">
+                  {slide.tag}
+                </span>
+                <h2 className="text-xl font-bold text-gray-900 leading-snug px-2">
+                  {slide.title}
+                </h2>
+                <p className="text-sm text-gray-500 max-w-[280px] mx-auto">
+                  {slide.desc}
+                </p>
+
+                {/* Prix */}
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-2xl font-bold text-gray-900">
+                    {slide.price}
+                  </span>
+                  {slide.originalPrice && (
+                    <span className="text-sm text-gray-400 line-through">
+                      {slide.originalPrice}
+                    </span>
+                  )}
+                </div>
+
+                {/* Bouton d'action */}
+                <Button
+                  asChild
+                  className="mt-3 h-11 px-8 rounded-full bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-colors"
+                >
+                  <Link href="/products">Découvrir</Link>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Flèches de navigation (toujours visibles pour le confort tactile) */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-2 top-[30%] -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-50 transition"
+          aria-label="Précédent"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-2 top-[30%] -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-50 transition"
+          aria-label="Suivant"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+
+        {/* Indicateurs */}
+        <div className="flex justify-center gap-2 pb-5 pt-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                idx === currentSlide
+                  ? "w-8 bg-orange-500"
+                  : "w-2 bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Aller à la slide ${idx + 1}`}
             />
-
-            {/* Overlay Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-600/85 to-blue-800/95 mix-blend-multiply pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-            
-            <div className="relative z-10 max-w-md">
-              <span className="text-[10px] font-black uppercase tracking-widest text-amber-200 drop-shadow-xs">
-                NEW ARRIVALS
-              </span>
-              <h1 className="mt-4 font-sans text-3xl font-black uppercase leading-tight tracking-tight sm:text-4xl md:text-5xl drop-shadow-md">
-                POUTOU <br />
-                <span className="text-amber-300">TRADITIONNEL</span>
-              </h1>
-              <p className="mt-3 text-xs font-medium text-amber-50/90 sm:text-sm drop-shadow-xs">
-                Authentique collection de bonnets Fulani d&apos;origine certifiée, entièrement tissés main par nos artisans.
-              </p>
-
-              {/* Minimalist Badges */}
-              <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-bold">
-                <span className="inline-flex items-center gap-1 rounded-md bg-black/30 px-2 py-1 backdrop-blur-md border border-white/5">
-                  <Star className="h-3 w-3 fill-amber-300 text-amber-300" /> 4.9 Global
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-md bg-black/30 px-2 py-1 backdrop-blur-md border border-white/5">
-                  <ShieldCheck className="h-3 w-3 text-emerald-300" /> Fouta Authentique
-                </span>
-              </div>
-            </div>
-
-            {/* CTA Platform */}
-            <div className="relative z-10 mt-8">
-              <Button 
-                asChild
-                className="h-11 rounded-full bg-white px-8 text-xs font-black uppercase tracking-wider text-orange-950 transition-all hover:bg-neutral-50 hover:scale-[1.02] active:scale-[0.98] shadow-lg"
-              >
-                <Link href="/products">Shop Now</Link>
-              </Button>
-            </div>
-          </div>
-
-          {/* 
-            Right Column Wrapper Modded for Mobile Lineup:
-            Instead of nesting structural block layout code, we match mobile behaviors with `contents` or `flex` arrays so they flow on the exact same carousel axis.
-          */}
-          <div className="contents lg:grid lg:grid-cols-1 lg:gap-4 lg:col-span-4">
-            
-            {/* Top Split Card — Purple Canvas with Oversized Image Asset */}
-            <div className="relative shrink-0 w-[88vw] sm:w-auto snap-center overflow-hidden rounded-2xl bg-gradient-to-r from-purple-900 to-indigo-950 p-4 flex items-center justify-center group min-h-[420px] sm:min-h-[222px]">
-              {/* Maximize image canvas scales inside card limits */}
-              <div className="relative w-[115%] h-[115%] sm:w-full sm:h-full max-h-[340px] sm:max-w-[210px] sm:max-h-[210px] aspect-square filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:scale-105">
-                <Image
-                  src={slides[0].image}
-                  alt={slides[0].title}
-                  fill
-                  priority
-                  className="object-contain"
-                />
-              </div>
-            </div>
-
-            {/* Bottom Split Card — Red Canvas with Oversized Image Asset */}
-            <div className="relative shrink-0 w-[88vw] sm:w-auto snap-center overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-rose-800 p-4 flex items-center justify-center group min-h-[420px] sm:min-h-[222px]">
-              {/* Maximize image canvas scales inside card limits */}
-              <div className="relative w-[115%] h-[115%] sm:w-full sm:h-full max-h-[340px] sm:max-w-[210px] sm:max-h-[210px] aspect-square filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:scale-105">
-                <Image
-                  src={slides[1].image}
-                  alt={slides[1].title}
-                  fill
-                  priority
-                  className="object-contain"
-                />
-              </div>
-            </div>
-
-          </div>
-
+          ))}
         </div>
       </div>
     </section>

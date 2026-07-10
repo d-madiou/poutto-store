@@ -11,12 +11,12 @@ import { requireAdminPage } from "@/lib/auth";
 import { signOut } from "@/actions/auth";
 
 const NAV_ITEMS = [
-  { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Produits", icon: Package },
   { href: "/admin/orders", label: "Commandes", icon: ShoppingCart },
   { href: "/admin/categories", label: "Catégories", icon: FolderTree },
   { href: "/admin/customers", label: "Clients", icon: Users },
-  { href: "/admin/broadcast", label: "E-mail groupé", icon: Mail },
+  { href: "/admin/broadcast", label: "Email", icon: Mail },
 ];
 
 export default async function AdminLayout({
@@ -27,54 +27,76 @@ export default async function AdminLayout({
   const user = await requireAdminPage();
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
-      {/* Mobile top bar */}
-      <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3 md:hidden">
-        <Link href="/admin" className="font-display text-lg font-semibold text-primary">
-          Poutou Admin
-        </Link>
-        <form action={signOut}>
-          <button className="text-sm font-medium text-muted-foreground">
-            Déconnexion
-          </button>
-        </form>
-      </header>
-
-      {/* Sidebar (desktop) / bottom tab bar (mobile) */}
-      <nav className="order-2 border-t border-border bg-card md:order-1 md:w-56 md:shrink-0 md:border-r md:border-t-0">
-        <div className="hidden px-4 py-5 md:block">
-          <span className="font-display text-lg font-semibold text-primary">
+    <div className="min-h-screen bg-white font-poppins">
+      {/* Structure principale : colonne sur mobile, ligne sur desktop */}
+      <div className="flex flex-col md:flex-row">
+        
+        {/* Header mobile */}
+        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 md:hidden">
+          <Link href="/admin" className="text-base font-bold text-gray-900">
             Poutou Admin
-          </span>
-          <p className="mt-1 text-xs text-muted-foreground">{user.email}</p>
-        </div>
+          </Link>
+          <form action={signOut}>
+            <button className="text-xs font-semibold text-red-600 hover:underline">
+              Déconnexion
+            </button>
+          </form>
+        </header>
 
-        <ul className="flex justify-around md:flex-col md:justify-start md:gap-1 md:px-2">
+        {/* Sidebar desktop (affichée uniquement sur md et +) */}
+        <aside className="hidden md:flex md:w-56 md:shrink-0 md:flex-col md:border-r md:border-gray-200 md:bg-white">
+          <div className="px-4 py-5 border-b border-gray-100">
+            <Link href="/admin" className="text-lg font-bold text-gray-900">
+              Poutou Admin
+            </Link>
+            <p className="mt-1 text-xs text-gray-500">{user.email}</p>
+          </div>
+          <ul className="flex-1 space-y-1 px-2 py-4">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="px-2 py-4 border-t border-gray-100">
+            <form action={signOut}>
+              <button className="w-full px-3 py-2.5 text-sm font-medium text-left text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                Déconnexion
+              </button>
+            </form>
+          </div>
+        </aside>
+
+        {/* Contenu principal (unique) */}
+        <main className="flex-1 px-4 py-4 pb-24 md:px-8 md:py-8">
+          {children}
+        </main>
+      </div>
+
+      {/* Bottom nav mobile */}
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white md:hidden">
+        <ul className="flex justify-around items-stretch h-16">
           {NAV_ITEMS.map((item) => (
-            <li key={item.href} className="flex-1 md:flex-none">
+            <li key={item.href} className="flex-1">
               <Link
                 href={item.href}
-                className="flex flex-col items-center gap-1 px-2 py-2.5 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground md:flex-row md:justify-start md:gap-3 md:rounded-md md:px-3 md:py-2.5 md:text-sm"
+                className="flex flex-col items-center justify-center h-full gap-1 text-gray-500 hover:text-[#E07B39] transition-colors"
               >
-                <item.icon className="h-5 w-5 md:h-4 md:w-4" />
-                <span className="md:inline">{item.label}</span>
+                <item.icon className="h-5 w-5" />
+                <span className="text-[10px] font-semibold uppercase tracking-wider">
+                  {item.label}
+                </span>
               </Link>
             </li>
           ))}
         </ul>
-
-        <div className="hidden px-2 py-4 md:block">
-          <form action={signOut}>
-            <button className="w-full rounded-md px-3 py-2.5 text-left text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
-              Déconnexion
-            </button>
-          </form>
-        </div>
       </nav>
-
-      <main className="order-1 flex-1 px-4 py-6 md:order-2 md:px-8 md:py-8">
-        {children}
-      </main>
     </div>
   );
 }
