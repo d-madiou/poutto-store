@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdminAction } from "@/lib/auth";
+import { slugify } from "@/lib/slug";
 
 export type ProductInput = {
   name: string;
@@ -21,14 +22,6 @@ export type ActionResult =
   | { success: true }
   | { success: false; error: string };
 
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // enlève les accents
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
 
 export async function createProduct(input: ProductInput): Promise<ActionResult> {
   await requireAdminAction();

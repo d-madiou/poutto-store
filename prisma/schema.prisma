@@ -58,7 +58,7 @@ model Product {
   sizes         String[]
   color         String?
   region      String? // origine/région du poutou (Fouta-Djallon)
-  status      String      @default("ACTIVE") // ACTIVE | ARCHIVED
+  status      String      @default("ACTIVE")
   categoryId  String
   category    Category    @relation(fields: [categoryId], references: [id])
   createdAt   DateTime    @default(now())
