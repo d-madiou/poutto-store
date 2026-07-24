@@ -32,16 +32,21 @@ export default async function AdminLayout({
       <div className="flex flex-col md:flex-row">
         
         {/* Header mobile */}
-        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 md:hidden">
-          <Link href="/admin" className="text-base font-bold text-gray-900">
-            Poutou Admin
+        <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3 md:hidden">
+        <Link href="/admin" className="font-display text-lg font-semibold text-primary">
+          Poutou Admin
+        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-sm font-medium text-primary">
+            Boutique
           </Link>
           <form action={signOut}>
-            <button className="text-xs font-semibold text-red-600 hover:underline">
+            <button className="text-sm font-medium text-muted-foreground">
               Déconnexion
             </button>
           </form>
-        </header>
+        </div>
+      </header>
 
         {/* Sidebar desktop (affichée uniquement sur md et +) */}
         <aside className="hidden md:flex md:w-56 md:shrink-0 md:flex-col md:border-r md:border-gray-200 md:bg-white">
@@ -64,13 +69,19 @@ export default async function AdminLayout({
               </li>
             ))}
           </ul>
-          <div className="px-2 py-4 border-t border-gray-100">
-            <form action={signOut}>
-              <button className="w-full px-3 py-2.5 text-sm font-medium text-left text-red-600 rounded-lg hover:bg-red-50 transition-colors">
-                Déconnexion
-              </button>
-            </form>
-          </div>
+          <div className="hidden space-y-1 px-2 py-4 md:block">
+          <Link
+            href="/"
+            className="block rounded-md px-3 py-2.5 text-sm font-medium text-primary hover:bg-secondary"
+          >
+            ← Voir la boutique
+          </Link>
+          <form action={signOut}>
+            <button className="w-full rounded-md px-3 py-2.5 text-left text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+              Déconnexion
+            </button>
+          </form>
+        </div>
         </aside>
 
         {/* Contenu principal (unique) */}
